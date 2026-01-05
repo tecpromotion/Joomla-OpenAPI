@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Joomla Web Services API",
-    "description": "## Joomla Web Services for Joomla! 6. \n- Set your own values for Authentication and Variables per the steps below\n    \n- Test a generic GET request from the list to then confirm your authentication is working and your base_url and base_path is set correctly.\n    \n\n## Authentication\n\nAuthentication is done using a Joomla API Token. To get the token, go to your Super User profile in your Joomla 6 Installation and activate then copy the API key. \n- In the Value field, paste your Joomla API Token\n    \n- For the Add To field, leave the value as \"Header\"\n    \n- Click Update to save the settings or click on Variables tab to modify your Base Path variable.\n    \n\nIf you prefer a video about how to set up your Joomla API Token here is one:\n\n[Short video how to set up Joomla API Token](https://youtube.com/clip/UgkxfHFK1vhr1oCpJvhBWwC8Mvm0LBB2WZ7A?si=nVa8FHGBlBUNxIek)\n\nFull video is :\n\n<video src=\"https://youtube.com/embed/lT9qodsvfZg\" width=\"340\"></video>\n\nJoomla 4 tutorial: Using the Web Services API\n\n## URLs\n\nThe URLs are set via _base_url_ and _base_path_. You should set this variable within your collection.\n\n- Click the 3 dots on the collection.\n    \n- Select Edit.\n    \n- Click on the variables tab.\n    \n- Add (or update) the _base_url_ and _base_path_ variable, setting the Initial Value field to the URL for your Joomla for installation.\n    \n\n## Videos\n\n[YouTube playlist about Joomla Web Services / APIs](https://www.youtube.com/playlist?list=PLsg93PS_2NeL850YZFlAi1Eb7hwxETNkX)\n\n## Setup\n\nYou might want to consider using :\n\n[https://github.com/muhme/joomla-branches-tester](https://github.com/muhme/joomla-branches-tester)\n\n## Feedback\n\n[https://github.com/alexandreelise/j4x-api-collection](https://github.com/alexandreelise/j4x-api-collection) for updates and information.\n\n",
+    "description": "Joomla Web Services for Joomla 4+\n\nAuthentication is done using a Joomla API Token. To get the token, go to the user profile in your Joomla installation and activate and copy the API key. \n\n## Videos\n\n[YouTube playlist about Joomla Web Services / APIs](https://www.youtube.com/playlist?list=PLsg93PS_2NeL850YZFlAi1Eb7hwxETNkX)\n\n",
     "version": "6.0.1",
     "contact": {}
   },
@@ -17,12 +17,12 @@
         "tags": [
           "Banners"
         ],
-        "summary": "banners",
-        "description": "Generated from a curl request: \ncurl -X GET '//banners' -H 'X-Joomla-Token: '",
-        "operationId": "banners1",
+        "summary": "List Banners",
+        "description": "Get a list of Banners in the Joomla site.",
+        "operationId": "listBanners",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -30,15 +30,19 @@
         "tags": [
           "Banners"
         ],
-        "summary": "banners",
-        "description": "Generated from a curl request: \ncurl -X POST '//banners' -H 'X-Joomla-Token: ' -H 'Content-Type: application/json' -d '{\"catid\":3,\"clicks\":0,\"custombannercode\":\"\",\"description\":\"Text\",\"metakey\":\"\",\"name\":\"Name\",\"params\":{\"alt\":\"\",\"height\":\"\",\"imageurl\":\"\",\"width\":\"\"}}'",
-        "operationId": "banners",
+        "summary": "Add Banner",
+        "description": "Add a Banner to the Joomla site.",
+        "operationId": "addBanner",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
+                  "alias": {
+                    "type": "string",
+                    "example": "some-alias"
+                  },
                   "catid": {
                     "type": "integer",
                     "example": 3
@@ -53,22 +57,22 @@
                   },
                   "description": {
                     "type": "string",
-                    "example": "Et sed ducimus aut dolore aperiam sed incidunt ea est. Excepturi sed accusantium quasi quam doloribus laudantium omnis omnis. Similique earum sint. Non natus iusto. Autem nisi maiores dicta ipsum assumenda sit. Est eum quaerat totam voluptatum."
+                    "example": "Some description of this Banner."
                   },
                   "metakey": {
                     "type": "string",
-                    "example": "Malaysia indigo Chair silver Implementation"
+                    "example": "some keywords"
                   },
                   "name": {
                     "type": "string",
-                    "example": "Adaptive dedicated monitoring"
+                    "example": "Name for this Banner"
                   },
                   "params": {
                     "type": "object",
                     "properties": {
                       "alt": {
                         "type": "string",
-                        "example": "Managed user-facing alliance"
+                        "example": "Alt-text for this Banner"
                       },
                       "height": {
                         "type": "integer",
@@ -89,16 +93,16 @@
               "examples": {
                 "banners": {
                   "value": {
-                    "catid": "3",
+                    "catid": 3,
                     "clicks": 0,
                     "custombannercode": "",
-                    "description": "Et sed ducimus aut dolore aperiam sed incidunt ea est. Excepturi sed accusantium quasi quam doloribus laudantium omnis omnis. Similique earum sint. Non natus iusto. Autem nisi maiores dicta ipsum assumenda sit. Est eum quaerat totam voluptatum.",
-                    "metakey": "Malaysia indigo Chair silver Implementation",
-                    "name": "Adaptive dedicated monitoring",
+                    "description": "Some description of this Banner.",
+                    "metakey": "some keywords",
+                    "name": "Name for this Banner",
                     "params": {
                       "alt": "Managed user-facing alliance",
                       "height": 480,
-                      "imageurl": "https://placeimg.com/640/480/animals",
+                      "imageurl": "images/banners/banner.jpg",
                       "width": 640
                     }
                   }
@@ -109,7 +113,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -119,12 +123,12 @@
         "tags": [
           "Banners"
         ],
-        "summary": "banners/{banner_id}",
-        "description": "Generated from a curl request: \ncurl -X GET '//banners/' -H 'X-Joomla-Token: '",
-        "operationId": "bannersBannerId",
+        "summary": "Get Banner",
+        "description": "Get the Banner with a specific banner_id.",
+        "operationId": "getBanner",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -132,12 +136,12 @@
         "tags": [
           "Banners"
         ],
-        "summary": "banners/{banner_id}",
-        "description": "Generated from a curl request: \ncurl -X DELETE '//banners/' -H 'X-Joomla-Token: '",
-        "operationId": "bannersBannerId2",
+        "summary": "Delete Banner",
+        "description": "Delete the Banner with a specific banner_id.",
+        "operationId": "deleteBanner",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -145,15 +149,69 @@
         "tags": [
           "Banners"
         ],
-        "summary": "banners/{banner_id}",
-        "description": "Generated from a curl request: \ncurl -X PATCH '//banners/' -H 'X-Joomla-Token: ' -H 'Content-Type: application/json' -d '{\"alias\":\"name\",\"catid\":3,\"description\":\"New Text\",\"name\":\"New Name\"}'",
-        "operationId": "bannersBannerId1",
+        "summary": "Update Banner",
+        "description": "Update the Banner with a specific banner_id.",
+        "operationId": "updateBanner",
         "requestBody": {
           "content": {
-            "text/plain": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "alias": {
+                    "type": "string",
+                    "example": "updated-alias"
+                  },
+                  "catid": {
+                    "type": "integer",
+                    "example": 3
+                  },
+                  "clicks": {
+                    "type": "integer",
+                    "example": 0
+                  },
+                  "custombannercode": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Updated description of this Banner."
+                  },
+                  "metakey": {
+                    "type": "string",
+                    "example": "some keywords"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Updated name for this Banner"
+                  },
+                  "params": {
+                    "type": "object",
+                    "properties": {
+                      "alt": {
+                        "type": "string",
+                        "example": "Updated alt-text for this Banner"
+                      },
+                      "height": {
+                        "type": "integer",
+                        "example": 480
+                      },
+                      "imageurl": {
+                        "type": "string",
+                        "example": "images/banners/banner.jpg"
+                      },
+                      "width": {
+                        "type": "integer",
+                        "example": 640
+                      }
+                    }
+                  }
+                }
+              },
               "examples": {
-                "banners/{banner_id}": {
-                  "value": "{\n    \"alias\": \"f06e6909-5413-4bac-b169-0ce046f9f2ea\",\n    \"catid\": 3,\n    \"description\": \"Updated Quisquam ut tempore consectetur natus assumenda ducimus molestiae ad deleniti. Similique sint sunt. Perferendis et quo inventore quisquam enim perferendis accusantium. Libero deserunt ut incidunt ea illo.\n \rAd est recusandae accusantium eaque in in earum praesentium. Laborum incidunt voluptatibus totam. Laborum animi sit eveniet aliquid velit est dolore qui eos. Qui quia eaque debitis rerum consequatur minus.\n \rVoluptas dicta neque tempore dolorum corporis aliquam. Velit ex suscipit est amet. Ea nobis qui. Animi maiores voluptas voluptas qui consectetur. Placeat rerum aut vero repellat quo debitis dignissimos hic.\",\n    \"name\": \"Updated Handcrafted Granite Keyboard\"\n}"
+                "banners/1": {
+                  "value": "{\n    \"alias\": \"updated-alias\",\n    \"catid\": 3,\n    \"description\": \"Updated description\",\n    \"name\": \"Updated name of the Banner\"\n}"
                 }
               }
             }
@@ -161,7 +219,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -171,8 +229,8 @@
           "in": "path",
           "required": true,
           "schema": {
-            "type": "string",
-            "example": ""
+            "type": "integer",
+            "example": 1
           }
         }
       ]
@@ -182,12 +240,12 @@
         "tags": [
           "Banners Clients"
         ],
-        "summary": "banners/clients",
-        "description": "Generated from a curl request: \ncurl -X GET '//banners/clients' -H 'X-Joomla-Token: '",
-        "operationId": "bannersClients1",
+        "summary": "List Clients",
+        "description": "Get a list of Banners Clients in the Joomla site.",
+        "operationId": "listBannersClients",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -195,9 +253,9 @@
         "tags": [
           "Banners Clients"
         ],
-        "summary": "banners/clients",
-        "description": "Generated from a curl request: \ncurl -X POST '//banners/clients' -H 'X-Joomla-Token: ' -H 'Content-Type: application/json' -d '{\"contact\":\"Name\",\"email\":\"email@example.org\",\"extrainfo\":\"\",\"metakey\":\"\",\"name\":\"Clients\",\"state\":1}'",
-        "operationId": "bannersClients",
+        "summary": "Add Client",
+        "description": "Add a new Banners Client to the Joomla site.",
+        "operationId": "addBannersClient",
         "requestBody": {
           "content": {
             "application/json": {
@@ -206,23 +264,25 @@
                 "properties": {
                   "contact": {
                     "type": "string",
-                    "example": "Ervin Schmeler"
+                    "description": "The name of the contact person for this client.",
+                    "example": "Some ContactpersonName"
                   },
                   "email": {
                     "type": "string",
-                    "example": "Natalie68@example.net"
+                    "format": "email",
+                    "example": "somename@example.org"
                   },
                   "extrainfo": {
                     "type": "string",
-                    "example": "Malta Architect Supervisor"
+                    "example": "Some extra info about this Banners Client."
                   },
                   "metakey": {
                     "type": "string",
-                    "example": ""
+                    "example": "some keywords"
                   },
                   "name": {
                     "type": "string",
-                    "example": "Clients"
+                    "example": "Name of client"
                   },
                   "state": {
                     "type": "integer",
@@ -233,11 +293,11 @@
               "examples": {
                 "banners/clients": {
                   "value": {
-                    "contact": "Ervin Schmeler",
-                    "email": "Natalie68@example.net",
-                    "extrainfo": "Malta Architect Supervisor",
-                    "metakey": "",
-                    "name": "Clients",
+                    "contact": "Some ContactpersonName",
+                    "email": "somename@example.org",
+                    "extrainfo": "Some extra info about this Banners Client.",
+                    "metakey": "some keywords",
+                    "name": "Name of client",
                     "state": 1
                   }
                 }
@@ -247,7 +307,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -257,12 +317,12 @@
         "tags": [
           "Banners Clients"
         ],
-        "summary": "banners/clients/{client_id}",
-        "description": "Generated from a curl request: \ncurl -X GET '//banners/clients/' -H 'X-Joomla-Token: '",
-        "operationId": "bannersClientsClientId",
+        "summary": "Get Client",
+        "description": "Get the Banners Client with a specific client_id.",
+        "operationId": "getBannersClient",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -270,12 +330,12 @@
         "tags": [
           "Banners Clients"
         ],
-        "summary": "banners/clients/{client_id}",
-        "description": "Generated from a curl request: \ncurl -X DELETE '//banners/clients/' -H 'X-Joomla-Token: '",
-        "operationId": "bannersClientsClientId2",
+        "summary": "Delete Client",
+        "description": "Delete the Banners Client with a specific client_id.",
+        "operationId": "deleteBannersClient",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -283,9 +343,9 @@
         "tags": [
           "Banners Clients"
         ],
-        "summary": "banners/clients/{client_id}",
-        "description": "Generated from a curl request: \ncurl -X PATCH '//banners/clients/' -H 'X-Joomla-Token: ' -H 'Content-Type: application/json' -d '{\"contact\":\"new Name\",\"email\":\"newemail@example.org\",\"name\":\"Clients\"}'",
-        "operationId": "bannersClientsClientId1",
+        "summary": "Update Client",
+        "description": "Update the Banners Client with a specific client_id.",
+        "operationId": "updateBannersClient",
         "requestBody": {
           "content": {
             "application/json": {
@@ -294,24 +354,28 @@
                 "properties": {
                   "contact": {
                     "type": "string",
-                    "example": "Updated Susan Kirlin"
+                    "description": "The name of the contact person for this client.",
+                    "example": "Updated ContactpersonName"
                   },
                   "email": {
                     "type": "string",
+                    "format": "email",
+                    "description": "The e-mail address of the banner client.",
                     "example": "newemail@example.org"
                   },
                   "name": {
                     "type": "string",
-                    "example": "Clients"
+                    "description": "The name of this client.",
+                    "example": "Updated ClientName"
                   }
                 }
               },
               "examples": {
-                "banners/clients/{client_id}": {
+                "banners/clients/1": {
                   "value": {
-                    "contact": "Updated Susan Kirlin",
+                    "contact": "Updated ContactpersonName",
                     "email": "newemail@example.org",
-                    "name": "Clients"
+                    "name": "Updated ClientName"
                   }
                 }
               }
@@ -320,7 +384,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -330,8 +394,8 @@
           "in": "path",
           "required": true,
           "schema": {
-            "type": "string",
-            "example": ""
+            "type": "integer",
+            "example": 1
           }
         }
       ]
@@ -341,12 +405,12 @@
         "tags": [
           "Banners Categories"
         ],
-        "summary": "banners/categories",
-        "description": "Generated from a curl request: \ncurl -X GET '//banners/categories' -H 'X-Joomla-Token: '",
-        "operationId": "bannersCategories1",
+        "summary": "List Categories",
+        "description": "Get a list of Banners Categories",
+        "operationId": "listBannersCategories",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -354,9 +418,9 @@
         "tags": [
           "Banners Categories"
         ],
-        "summary": "banners/categories",
-        "description": "Generated from a curl request: \ncurl -X POST '//banners/categories' -H 'X-Joomla-Token: ' -H 'Content-Type: application/json' -d '{\"access\":1,\"alias\":\"cat\",\"extension\":\"com_banners\",\"language\":\"*\",\"note\":\"\",\"parent_id\":1,\"published\":1,\"title\":\"Title\",\"params\":{\"workflow_id\":1}}'",
-        "operationId": "bannersCategories",
+        "summary": "Add Category",
+        "description": "Add a Banners Category to the Joomla site.",
+        "operationId": "addBannersCategory",
         "requestBody": {
           "content": {
             "application/json": {
@@ -369,7 +433,7 @@
                   },
                   "alias": {
                     "type": "string",
-                    "example": "04c16ec5-b4d9-464a-9d9d-29bc3a0a68c2"
+                    "example": "category-alias"
                   },
                   "extension": {
                     "type": "string",
@@ -381,7 +445,7 @@
                   },
                   "note": {
                     "type": "string",
-                    "example": ""
+                    "example": "Some note for this category"
                   },
                   "params": {
                     "type": "object",
@@ -402,7 +466,7 @@
                   },
                   "title": {
                     "type": "string",
-                    "example": "Regional Tactics Strategist"
+                    "example": "A name for this Category"
                   }
                 }
               },
@@ -410,7 +474,7 @@
                 "banners/categories": {
                   "value": {
                     "access": 1,
-                    "alias": "04c16ec5-b4d9-464a-9d9d-29bc3a0a68c2",
+                    "alias": "category-alias",
                     "extension": "com_banners",
                     "language": "*",
                     "note": "",
@@ -419,7 +483,7 @@
                     },
                     "parent_id": 1,
                     "published": 1,
-                    "title": "Regional Tactics Strategist"
+                    "title": "A name for this Category"
                   }
                 }
               }
@@ -428,7 +492,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -438,12 +502,12 @@
         "tags": [
           "Banners Categories"
         ],
-        "summary": "banners/categories/{category_id}",
-        "description": "Generated from a curl request: \ncurl -X GET '//banners/categories/' -H 'X-Joomla-Token: '",
-        "operationId": "bannersCategoriesCategoryId",
+        "summary": "Get Category",
+        "description": "Get the Banners Category with a specific category_id.",
+        "operationId": "getBannersCategory",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -451,12 +515,12 @@
         "tags": [
           "Banners Categories"
         ],
-        "summary": "banners/categories/{category_id}",
-        "description": "Generated from a curl request: \ncurl -X DELETE '//banners/categories/' -H 'X-Joomla-Token: '",
-        "operationId": "bannersCategoriesCategoryId2",
+        "summary": "Delete Category",
+        "description": "Delete the Banners Category with a specific category_id.",
+        "operationId": "deleteBannersCategory",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -464,9 +528,9 @@
         "tags": [
           "Banners Categories"
         ],
-        "summary": "banners/categories/{category_id}",
-        "description": "Generated from a curl request: \ncurl -X PATCH '//banners/categories/' -H 'X-Joomla-Token: ' -H 'Content-Type: application/json' -d '{\"alias\":\"cat\",\"note\":\"Some Text\",\"parent_id\":1,\"title\":\"New Title\"}'",
-        "operationId": "bannersCategoriesCategoryId1",
+        "summary": "Update Category",
+        "description": "Delete the Banners Category with a specific category_id.",
+        "operationId": "updateBannersCategory",
         "requestBody": {
           "content": {
             "application/json": {
@@ -475,11 +539,11 @@
                 "properties": {
                   "alias": {
                     "type": "string",
-                    "example": "da438501-7f55-4314-a9c8-5dda6e196239"
+                    "example": "updated-category"
                   },
                   "note": {
                     "type": "string",
-                    "example": "Enim corporis non quidem quia ad ut deserunt delectus dolores."
+                    "example": "Updated note for this category."
                   },
                   "parent_id": {
                     "type": "integer",
@@ -487,17 +551,17 @@
                   },
                   "title": {
                     "type": "string",
-                    "example": "Sleek Plastic Table"
+                    "example": "Updated Category name"
                   }
                 }
               },
               "examples": {
                 "banners/categories/{category_id}": {
                   "value": {
-                    "alias": "da438501-7f55-4314-a9c8-5dda6e196239",
-                    "note": "Enim corporis non quidem quia ad ut deserunt delectus dolores.",
+                    "alias": "updated-category",
+                    "note": "Updated note for this category.",
                     "parent_id": 1,
-                    "title": "Sleek Plastic Table"
+                    "title": "Updated Category name"
                   }
                 }
               }
@@ -506,7 +570,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -516,8 +580,8 @@
           "in": "path",
           "required": true,
           "schema": {
-            "type": "string",
-            "example": ""
+            "type": "integer",
+            "example": 1
           }
         }
       ]
@@ -527,12 +591,12 @@
         "tags": [
           "Banners Content History"
         ],
-        "summary": "banners/{banner_id}/contenthistory",
-        "description": "Generated from a curl request: \ncurl -X GET '//banners/contenthistory/' -H 'X-Joomla-Token: '",
-        "operationId": "bannersBannerIdContenthistory",
+        "summary": "List Versions",
+        "description": "List the Banners Content History for a specific banner_id.",
+        "operationId": "listBannersContenthistory",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -540,12 +604,12 @@
         "tags": [
           "Banners Content History"
         ],
-        "summary": "banners/{banner_id}/contenthistory",
-        "description": "Generated from a curl request: \ncurl -X DELETE '//banners/contenthistory/' -H 'X-Joomla-Token: '",
-        "operationId": "bannersBannerIdContenthistory1",
+        "summary": "Delete Versions",
+        "description": "Delete the Banners Content History for a specific banner_id.",
+        "operationId": "deleteBannersContenthistory",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -561,23 +625,33 @@
         }
       ]
     },
-    "/api/index.php/v1/banners/{banner_id}/contenthistory/keep": {
+    "/api/index.php/v1/banners/{version_id}/contenthistory/keep": {
       "patch": {
         "tags": [
           "Banners Content History"
         ],
-        "summary": "banners/{banner_id}/contenthistory/keep",
-        "description": "Generated from a curl request: \ncurl -X PATCH '//banners/contenthistory/keep/' -H 'X-Joomla-Token: '",
-        "operationId": "bannersBannerIdContenthistoryKeep",
+        "summary": "Keep Version",
+        "description": "Keep the Banners Version for a specific version_id.",
+        "operationId": "keepBannersVersion",
+        "parameters": [
+          {
+            "name": "version_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "examples": {
-                "banners/{banner_id}/contenthistory/keep": {
-                  "value": "{\"version_note\": \"Culpa sunt quae enim et quod repellendus cum officia. Architecto sed et. Consectetur velit modi molestiae dolores nihil fugiat et. Nihil et est veritatis. Nam numquam ea adipisci hic qui doloremque porro eum vel. Eaque consequatur quis adipisci molestiae aliquam et quia.\n \rVoluptatem excepturi quia quo. Earum velit sunt. Quis libero sequi nobis voluptas veniam illum. Nihil soluta repellendus officia consequatur et voluptatibus id amet.\n \rAut et modi magni. Laborum molestiae facilis est ipsa adipisci. Aut aut nam voluptatem ducimus voluptates accusamus pariatur. Veritatis recusandae distinctio mollitia doloremque ea et pariatur odit doloribus. Veniam at velit et eaque.\"}"
-                },
-                "contacts/{contact_id}/contenthistory/keep": {
-                  "value": "{\"version_note\": \"Laborum est cumque quis vel. Praesentium amet excepturi voluptatem in neque quos dicta. Eos adipisci voluptatem nisi ratione a dolorem quia soluta hic. Ea velit quos qui nam. Sunt ratione corporis cupiditate.\n \rEt eum magni voluptatibus in explicabo tempora sed. Placeat dolore et error non provident recusandae iusto quos. Temporibus qui sunt facere molestias. Non fugit inventore nobis id. A exercitationem vel ea placeat voluptatem. Saepe rerum quo esse qui error.\n \rIure facere nesciunt ut deserunt dolor maiores fugiat vero aut. Assumenda doloribus vel. Soluta facere labore nulla excepturi omnis. Debitis libero et tempore modi facere culpa est. Aut minima nihil itaque autem pariatur. Non est eum.\"}"
+                "banners/1/contenthistory/keep": {
+                  "value": {
+                    "version_note": "Some note for this version."
+                  }
                 }
               }
             }
@@ -585,7 +659,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -595,8 +669,8 @@
           "in": "path",
           "required": true,
           "schema": {
-            "type": "string",
-            "example": ""
+            "type": "integer",
+            "example": 1
           }
         }
       ]
@@ -611,7 +685,7 @@
         "operationId": "configApplication",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -651,7 +725,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -666,7 +740,7 @@
         "operationId": "configComponentName",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -692,7 +766,7 @@
         "operationId": "contacts1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -742,7 +816,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -757,7 +831,7 @@
         "operationId": "contactsContactId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -770,7 +844,7 @@
         "operationId": "contactsContactId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -794,7 +868,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -826,6 +900,7 @@
                 "properties": {
                   "contact_email": {
                     "type": "string",
+                    "format": "email",
                     "example": "email@example.org"
                   },
                   "contact_message": {
@@ -857,7 +932,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -883,7 +958,7 @@
         "operationId": "fieldsContactsContact1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1076,7 +1151,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -1091,7 +1166,7 @@
         "operationId": "fieldsContactsContactFieldId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1104,7 +1179,7 @@
         "operationId": "fieldsContactsContactFieldId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1180,7 +1255,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1206,7 +1281,7 @@
         "operationId": "fieldsContactsCategories1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1368,7 +1443,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -1383,7 +1458,7 @@
         "operationId": "fieldsContactsCategoriesFieldId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1396,7 +1471,7 @@
         "operationId": "fieldsContactsCategoriesFieldId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1461,7 +1536,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1487,7 +1562,7 @@
         "operationId": "fieldsGroupsContactsContact1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1711,7 +1786,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -1726,7 +1801,7 @@
         "operationId": "fieldsGroupsContactsContactGroupId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1739,7 +1814,7 @@
         "operationId": "fieldsGroupsContactsContactGroupId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1798,7 +1873,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1824,7 +1899,7 @@
         "operationId": "contactsCategories1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1906,7 +1981,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -1921,7 +1996,7 @@
         "operationId": "contactsCategoriesCategoryId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1934,7 +2009,7 @@
         "operationId": "contactsCategoriesCategoryId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -1984,7 +2059,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2093,7 +2168,7 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2158,7 +2233,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -2173,7 +2248,7 @@
         "operationId": "contentArticlesArticleId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2186,7 +2261,7 @@
         "operationId": "contentArticlesArticleId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2226,7 +2301,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2252,7 +2327,7 @@
         "operationId": "fieldsContentArticles1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2431,7 +2506,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -2446,7 +2521,7 @@
         "operationId": "fieldsContentArticlesFieldId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2459,7 +2534,7 @@
         "operationId": "fieldsContentArticlesFieldId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2524,7 +2599,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2550,7 +2625,7 @@
         "operationId": "fieldsGroupsContentArticles1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2642,7 +2717,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -2657,7 +2732,7 @@
         "operationId": "fieldsGroupsContentArticlesGroupId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2670,7 +2745,7 @@
         "operationId": "fieldsGroupsContentArticlesGroupId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2715,7 +2790,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2741,7 +2816,7 @@
         "operationId": "fieldsContentCategories1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2920,7 +2995,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -2935,7 +3010,7 @@
         "operationId": "fieldsContentCategoriesFieldId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -2948,7 +3023,7 @@
         "operationId": "fieldsContentCategoriesFieldId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3013,7 +3088,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3039,7 +3114,7 @@
         "operationId": "contentCategories1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3121,7 +3196,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -3136,7 +3211,7 @@
         "operationId": "contentCategoriesCategoryId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3149,7 +3224,7 @@
         "operationId": "contentCategoriesCategoryId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3199,7 +3274,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3225,7 +3300,7 @@
         "operationId": "tours1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3300,7 +3375,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -3315,7 +3390,7 @@
         "operationId": "toursTourId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3328,7 +3403,7 @@
         "operationId": "toursTourId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3363,7 +3438,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3390,7 +3465,7 @@
         "operationId": "toursTourIdSteps1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3485,7 +3560,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3511,7 +3586,7 @@
         "operationId": "toursTourIdStepsStepId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3524,7 +3599,7 @@
         "operationId": "toursTourIdStepsStepId1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3564,7 +3639,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3599,7 +3674,7 @@
         "operationId": "extensions",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -3614,7 +3689,7 @@
         "operationId": "languages1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3649,7 +3724,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -3664,7 +3739,7 @@
         "operationId": "languagesContent1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3754,7 +3829,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -3769,7 +3844,7 @@
         "operationId": "languagesContentLanguageId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3834,7 +3909,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3860,7 +3935,7 @@
         "operationId": "languagesContentLanguageId1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3886,7 +3961,7 @@
         "operationId": "languagesOverridesAppLangCode1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3926,7 +4001,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3961,7 +4036,7 @@
         "operationId": "languagesOverridesAppLangCodeConstantId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -3974,7 +4049,7 @@
         "operationId": "languagesOverridesAppLangCodeConstantId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4014,7 +4089,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4085,7 +4160,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -4100,7 +4175,7 @@
         "operationId": "languagesOverridesSearchCacheRefresh",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -4110,12 +4185,12 @@
         "tags": [
           "Media Adapters"
         ],
-        "summary": "media/adapters",
-        "description": "media/adapters",
-        "operationId": "mediaAdapters",
+        "summary": "List Media Adapters",
+        "description": "Get a list of Media Adapters",
+        "operationId": "listMediaAdapters",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -4125,9 +4200,9 @@
         "tags": [
           "Media Adapters"
         ],
-        "summary": "media/adapters/{adapter_id}",
-        "description": "media/adapters/{adapter_id}",
-        "operationId": "mediaAdaptersAdapterId",
+        "summary": "Get Media Adapter",
+        "description": "Get the Media Adapter with a specific adapter_id.",
+        "operationId": "getMediaAdapter",
         "parameters": [
           {
             "name": "adapter_id",
@@ -4142,41 +4217,48 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
     },
     "/api/index.php/v1/media/files": {
       "get": {
-        "tags": ["Media Files"],
-        "summary": "media/files",
-        "description": "List media files",
-        "operationId": "mediaFilesList",
+        "tags": [
+          "Media Files"
+        ],
+        "summary": "List Media Files",
+        "description": "Get a list of media files",
+        "operationId": "listMediaFiles",
         "responses": {
           "200": {
-            "description": "List of media files"
+            "description": "List of media files. todo: response object"
           }
         }
       },
       "post": {
-        "tags": ["Media Files"],
-        "summary": "Upload a new media file",
-        "description": "Create a new media file by uploading Base64-encoded content.",
-        "operationId": "mediaFilesCreate",
+        "tags": [
+          "Media Files"
+        ],
+        "summary": "Add Media File",
+        "description": "Add a (Base64-encoded) media file to the Joomla site.",
+        "operationId": "addMediaFile",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["path", "content_base64"],
+                "required": [
+                  "path",
+                  "content"
+                ],
                 "properties": {
                   "path": {
                     "type": "string",
                     "description": "Target media path including filename (e.g. images/example.png)"
                   },
-                  "content_base64": {
+                  "content": {
                     "type": "string",
                     "format": "byte",
                     "description": "Base64-encoded file bytes. If the source file is available via URL, the client MUST download the file, read the raw bytes, encode them using standard Base64 (RFC 4648), and send the encoded string. Do NOT include a data URL prefix.",
@@ -4189,15 +4271,16 @@
         },
         "responses": {
           "200": {
-            "description": "Media file uploaded successfully"
+            "description": "Media file uploaded successfully.  todo: response object"
           }
         }
       }
     },
-
     "/api/index.php/v1/media/files/{path}/": {
       "get": {
-        "tags": ["Media Files"],
+        "tags": [
+          "Media Files"
+        ],
         "summary": "List media files in a directory",
         "description": "When the path ends with a slash, list the items in the directory.",
         "operationId": "mediaFilesDirectoryList",
@@ -4229,10 +4312,11 @@
         }
       ]
     },
-
     "/api/index.php/v1/media/files/{path}": {
       "get": {
-        "tags": ["Media Files"],
+        "tags": [
+          "Media Files"
+        ],
         "summary": "Retrieve a media file",
         "description": "Retrieve metadata or contents of a media file.",
         "operationId": "mediaFilesGet",
@@ -4243,18 +4327,22 @@
         }
       },
       "delete": {
-        "tags": ["Media Files"],
+        "tags": [
+          "Media Files"
+        ],
         "summary": "Delete a media file",
         "description": "Delete the media file at the given path.",
         "operationId": "mediaFilesDelete",
         "responses": {
           "200": {
-            "description": "Media file deleted"
+            "description": "Media file deleted successfully"
           }
         }
       },
       "patch": {
-        "tags": ["Media Files"],
+        "tags": [
+          "Media Files"
+        ],
         "summary": "Update or replace a media file",
         "description": "Update an existing media file by sending new Base64-encoded content.",
         "operationId": "mediaFilesUpdate",
@@ -4264,9 +4352,11 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["content_base64"],
+                "required": [
+                  "content"
+                ],
                 "properties": {
-                  "content_base64": {
+                  "content": {
                     "type": "string",
                     "format": "byte",
                     "description": "Base64-encoded file bytes. Clients must download the source file, encode the raw bytes using standard Base64, and send the encoded string. Do NOT include a data URL prefix.",
@@ -4279,7 +4369,12 @@
         },
         "responses": {
           "200": {
-            "description": "Media file updated successfully"
+            "description": "Media file updated successfully - todo: add fields of response",
+            "content": {
+              "application/json": {
+
+              }
+            }
           }
         }
       },
@@ -4305,7 +4400,7 @@
         "operationId": "menusApp1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4355,7 +4450,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4381,7 +4476,7 @@
         "operationId": "menusAppMenuId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4394,7 +4489,7 @@
         "operationId": "menusAppMenuId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4434,7 +4529,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4469,7 +4564,7 @@
         "operationId": "menusAppItems1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4703,7 +4798,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4729,7 +4824,7 @@
         "operationId": "menusAppItemsTypes",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4755,7 +4850,7 @@
         "operationId": "menusAppItemsMenuItemId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4768,7 +4863,7 @@
         "operationId": "menusAppItemsMenuItemId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4833,7 +4928,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4868,7 +4963,7 @@
         "operationId": "messages1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4923,7 +5018,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -4938,7 +5033,7 @@
         "operationId": "messagesMessageId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -4951,7 +5046,7 @@
         "operationId": "messagesMessageId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5001,7 +5096,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5027,7 +5122,7 @@
         "operationId": "modulesApp1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5199,7 +5294,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5225,7 +5320,7 @@
         "operationId": "modulesTypesApp",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5251,7 +5346,7 @@
         "operationId": "modulesAppModuleId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5264,7 +5359,7 @@
         "operationId": "modulesAppModuleId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5329,7 +5424,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5364,7 +5459,7 @@
         "operationId": "newsfeedsFeeds1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5572,7 +5667,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -5587,7 +5682,7 @@
         "operationId": "newsfeedsFeedsFeedId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5600,7 +5695,7 @@
         "operationId": "newsfeedsFeedsFeedId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5670,7 +5765,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5696,7 +5791,7 @@
         "operationId": "privacyRequests1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5715,6 +5810,7 @@
                 "properties": {
                   "email": {
                     "type": "string",
+                    "format": "email",
                     "example": "test@example.org"
                   },
                   "request_type": {
@@ -5736,7 +5832,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -5751,7 +5847,7 @@
         "operationId": "privacyRequestsRequestId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5778,7 +5874,7 @@
         "operationId": "privacyRequestsExportRequestId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5804,7 +5900,7 @@
         "operationId": "privacyConsents",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -5819,7 +5915,7 @@
         "operationId": "privacyConsentsConsentId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5832,7 +5928,7 @@
         "operationId": "privacyConsentsConsentId1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5910,7 +6006,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -5925,7 +6021,7 @@
         "operationId": "redirects",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -5940,7 +6036,7 @@
         "operationId": "redirectsRedirectId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -5980,7 +6076,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6006,7 +6102,7 @@
         "operationId": "redirectsRedirectId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6032,7 +6128,7 @@
         "operationId": "tags1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6112,7 +6208,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -6127,7 +6223,7 @@
         "operationId": "tagsTagId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6140,7 +6236,7 @@
         "operationId": "tagsTagId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6180,7 +6276,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6206,7 +6302,7 @@
         "operationId": "templatesStylesApp1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6278,7 +6374,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6304,7 +6400,7 @@
         "operationId": "templatesStylesAppTemplateStyleId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6318,7 +6414,7 @@
         "operationId": "templatesStylesAppTemplateStyleId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6358,7 +6454,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6393,7 +6489,7 @@
         "operationId": "users1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6416,6 +6512,7 @@
                   },
                   "email": {
                     "type": "string",
+                    "format": "email",
                     "example": "test@example.org"
                   },
                   "groups": {
@@ -6540,7 +6637,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -6555,7 +6652,7 @@
         "operationId": "usersUserId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6568,7 +6665,7 @@
         "operationId": "usersUserId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6587,6 +6684,7 @@
                 "properties": {
                   "email": {
                     "type": "string",
+                    "format": "email",
                     "example": "new@example.org"
                   },
                   "groups": {
@@ -6626,7 +6724,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6652,7 +6750,7 @@
         "operationId": "fieldsUsers1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6831,7 +6929,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -6846,7 +6944,7 @@
         "operationId": "fieldsUsersFieldId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6859,7 +6957,7 @@
         "operationId": "fieldsUsersFieldId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6924,7 +7022,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -6950,7 +7048,7 @@
         "operationId": "fieldsGroupsUsers1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7042,7 +7140,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -7057,7 +7155,7 @@
         "operationId": "fieldsGroupsUsersGroupId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7070,7 +7168,7 @@
         "operationId": "fieldsGroupsUsersGroupId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7115,7 +7213,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7141,7 +7239,7 @@
         "operationId": "usersGroups1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7181,7 +7279,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -7196,7 +7294,7 @@
         "operationId": "usersGroupsGroupId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7209,7 +7307,7 @@
         "operationId": "usersGroupsGroupId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7244,7 +7342,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7271,7 +7369,7 @@
         "operationId": "usersLevels1",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7311,7 +7409,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -7326,7 +7424,7 @@
         "operationId": "usersLevelsLevelId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7339,7 +7437,7 @@
         "operationId": "usersLevelsLevelId2",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7374,7 +7472,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7439,7 +7537,7 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       }
@@ -7454,7 +7552,7 @@
         "operationId": "pluginsPluginId",
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7499,7 +7597,7 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "todo: response object"
           }
         }
       },
@@ -7519,7 +7617,7 @@
   },
   "components": {
     "securitySchemes": {
-      "apiKey": {
+      "ApiKeyAuth": {
         "type": "apiKey",
         "name": "X-Joomla-Token",
         "in": "header"
@@ -7528,7 +7626,7 @@
   },
   "security": [
     {
-      "apiKey": []
+      "ApiKeyAuth": []
     }
   ],
   "tags": [
