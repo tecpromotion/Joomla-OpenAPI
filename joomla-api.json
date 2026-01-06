@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.3",
+  "openapi": "3.1.0",
   "info": {
     "title": "Joomla Web Services API",
     "description": "Joomla Web Services for Joomla 4+\n\nAuthentication is done using a Joomla API Token. To get the token, go to the user profile in your Joomla installation and activate and copy the API key. \n\n## Videos\n\n[YouTube playlist about Joomla Web Services / APIs](https://www.youtube.com/playlist?list=PLsg93PS_2NeL850YZFlAi1Eb7hwxETNkX)\n\n",
@@ -4180,21 +4180,30 @@
         }
       }
     },
+
     "/api/index.php/v1/media/adapters": {
       "get": {
         "tags": [
           "Media Adapters"
         ],
         "summary": "List Media Adapters",
-        "description": "Get a list of Media Adapters",
+        "description": "Get a list of configured Media Adapters. Adapters define storage backends and root paths for media files. For examples of how to use Media Adapters, please refer to\n\n[https://github.com/joomla/joomla-cms/blob/6.0-dev/tests/System/integration/api/com_media/Adapters.cy.js](https://github.com/joomla/joomla-cms/blob/6.0-dev/tests/System/integration/api/com_media/Adapters.cy.js)",
         "operationId": "listMediaAdapters",
         "responses": {
           "200": {
-            "description": "todo: response object"
+            "description": "Media adapters retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaAdapterCollectionResponse"
+                }
+              }
+            }
           }
         }
       }
     },
+
     "/api/index.php/v1/media/adapters/{adapter_id}": {
       "get": {
         "tags": [
@@ -4212,27 +4221,55 @@
               "type": "string",
               "example": "local-images"
             },
-            "description": "Get Media Adapter by id\n"
+            "description": "Media adapter identifier (e.g. local-images)"
           }
         ],
         "responses": {
           "200": {
-            "description": "todo: response object"
+            "description": "Media adapter retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaAdapterResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Media adapter not found."
           }
         }
       }
     },
+
     "/api/index.php/v1/media/files": {
       "get": {
         "tags": [
           "Media Files"
         ],
         "summary": "List Media Files",
-        "description": "Get a list of media files",
+        "description": "Get a list of media files. This only gives back the files in the files-directory. Do you need some 'path' request variable?",
         "operationId": "listMediaFiles",
+        "parameters": [
+          {
+            "name": "filter[search]",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional search filter."
+          }
+        ],
         "responses": {
           "200": {
-            "description": "List of media files. todo: response object"
+            "description": "Media files listed successfully. Todo: check when path is to single file",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaFileCollectionResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -4248,81 +4285,74 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "path",
-                  "content"
-                ],
-                "properties": {
-                  "path": {
-                    "type": "string",
-                    "description": "Target media path including filename (e.g. images/example.png)"
-                  },
-                  "content": {
-                    "type": "string",
-                    "format": "byte",
-                    "description": "Base64-encoded file bytes. If the source file is available via URL, the client MUST download the file, read the raw bytes, encode them using standard Base64 (RFC 4648), and send the encoded string. Do NOT include a data URL prefix.",
-                    "example": "iVBORw0KGgoAAAANSUhEUgAA"
-                  }
-                }
+                "$ref": "#/components/schemas/MediaFileUploadRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Media file uploaded successfully.  todo: response object"
+            "$ref": "#/components/schemas/MediaFileResponse"
+          },
+          "413": {
+            "description": "Payload too large."
+          },
+          "415": {
+            "description": "Unsupported media type."
           }
         }
       }
     },
-    "/api/index.php/v1/media/files/{path}/": {
+
+    "/api/index.php/v1/media/files/{path}": {
+    "parameters": [
+      {
+        "name": "path",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Directory path including adapter prefix (e.g. local-images:/test/test.png)."
+      }
+    ],
       "get": {
         "tags": [
           "Media Files"
         ],
-        "summary": "List media files in a directory",
-        "description": "When the path ends with a slash, list the items in the directory.",
-        "operationId": "mediaFilesDirectoryList",
+        "summary": "Get Media File(s)",
+        "description": "Get a file in a directory. When the path ends with a slash ('/'), list the items in the directory.",
+        "operationId": "getMediaFiles",
         "parameters": [
           {
             "name": "filter[search]",
             "in": "query",
             "schema": {
-              "type": "string",
-              "example": "joomla"
+              "type": "string"
+            },
+            "description": "Optional search filter."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Media file or directory listing returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/MediaFileResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/MediaFileCollectionResponse"
+                    }
+                  ]
+                }
+              }
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Directory listing"
-          }
-        }
-      },
-      "parameters": [
-        {
-          "name": "path",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
           },
-          "description": "Directory path"
-        }
-      ]
-    },
-    "/api/index.php/v1/media/files/{path}": {
-      "get": {
-        "tags": [
-          "Media Files"
-        ],
-        "summary": "Retrieve a media file",
-        "description": "Retrieve metadata or contents of a media file.",
-        "operationId": "mediaFilesGet",
-        "responses": {
-          "200": {
-            "description": "Media file details"
+          "404": {
+            "description": "Media file or directory not found."
           }
         }
       },
@@ -4330,12 +4360,15 @@
         "tags": [
           "Media Files"
         ],
-        "summary": "Delete a media file",
+        "summary": "Delete Media File",
         "description": "Delete the media file at the given path.",
-        "operationId": "mediaFilesDelete",
+        "operationId": "deleteMediaFile",
         "responses": {
-          "200": {
-            "description": "Media file deleted successfully"
+          "204": {
+            "description": "Media file deleted successfully, but no content is returned"
+          },
+          "404": {
+            "description": "Media file not found."
           }
         }
       },
@@ -4343,53 +4376,30 @@
         "tags": [
           "Media Files"
         ],
-        "summary": "Update or replace a media file",
+        "summary": "Update Media File",
         "description": "Update an existing media file by sending new Base64-encoded content.",
-        "operationId": "mediaFilesUpdate",
+        "operationId": "updateMediaFile",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "content"
-                ],
-                "properties": {
-                  "content": {
-                    "type": "string",
-                    "format": "byte",
-                    "description": "Base64-encoded file bytes. Clients must download the source file, encode the raw bytes using standard Base64, and send the encoded string. Do NOT include a data URL prefix.",
-                    "example": "R0lGODlhAQABAIAAAAUEBAXY"
-                  }
-                }
+                "$ref": "#/components/schemas/MediaFileUploadRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Media file updated successfully - todo: add fields of response",
-            "content": {
-              "application/json": {
-
-              }
-            }
+            "$ref": "#/components/schemas/MediaFileResponse"
+          },
+          "404": {
+            "description": "Media file not found."
           }
         }
-      },
-      "parameters": [
-        {
-          "name": "path",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string"
-          },
-          "description": "Media path including filename. When the path ends with a slash, the endpoint lists directory items."
-        }
-      ]
+      }
     },
+
     "/api/index.php/v1/menus/{app}": {
       "get": {
         "tags": [
@@ -7622,6 +7632,234 @@
         "name": "X-Joomla-Token",
         "in": "header"
       }
+    },
+    "schemas": {
+      "LinksSelf": {
+        "type": "object",
+        "required": ["self"],
+        "properties": {
+          "self": {
+            "type": "string",
+            "format": "uri",
+            "description": "Canonical URL of the current resource."
+          }
+        }
+      },
+
+      "MediaFileAttributes": {
+        "type": "object",
+        "required": [
+          "type",
+          "name",
+          "path",
+          "extension",
+          "size",
+          "mime_type",
+          "create_date",
+          "modified_date",
+          "adapter"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["file"]
+          },
+          "name": { "type": "string" },
+          "path": { "type": "string" },
+          "extension": { "type": "string" },
+          "size": { "type": "integer" },
+          "mime_type": { "type": "string" },
+          "width": {
+            "type": "integer",
+            "nullable": true
+          },
+          "height": {
+            "type": "integer",
+            "nullable": true
+          },
+          "create_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "create_date_formatted": {
+            "type": "string"
+          },
+          "modified_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modified_date_formatted": {
+            "type": "string"
+          },
+          "thumb_path": {
+            "type": "string",
+            "format": "uri"
+          },
+          "content": {
+            "type": "string",
+            "format": "byte",
+            "description": "Base64-encoded file content. Present in POST/PATCH responses, not returned by GET.\n\nTODO: Confirm whether content inclusion can be toggled via query parameters."
+          },
+          "adapter": {
+            "type": "string"
+          }
+        }
+      },
+
+      "MediaFileResource": {
+        "type": "object",
+        "required": ["type", "id", "attributes"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "media"
+          },
+          "id": {
+            "type": "string",
+            "description": "Is always \"0\"."
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/MediaFileAttributes"
+          }
+        }
+      },
+
+      "MetaPagination": {
+        "type": "object",
+        "properties": {
+          "total-pages": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Total number of pages available for the current listing."
+          }
+        },
+        "additionalProperties": false
+      },
+
+      "MediaFileCollectionResponse": {
+        "type": "object",
+        "required": ["links", "data"],
+        "properties": {
+          "links": {
+            "$ref": "#/components/schemas/LinksSelf"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaFileResource"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/MetaPagination"
+          }
+        },
+        "description": "Response returned when a directory path (ending with '/') is requested."
+      },
+
+      "MediaFileResponse": {
+        "type": "object",
+        "required": ["links", "data"],
+        "properties": {
+          "links": {
+            "$ref": "#/components/schemas/LinksSelf"
+          },
+          "data": {
+            "$ref": "#/components/schemas/MediaFileResource"
+          }
+        },
+        "description": "Response returned when a single media file is requested."
+      },
+
+      "MediaFileUploadRequest": {
+        "type": "object",
+        "required": ["path", "content"],
+        "description": "No mime-type property in Joomla file upload, nor file-size",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Target media path including filename."
+          },
+          "content": {
+            "type": "string",
+            "format": "byte",
+            "description": "Base64-encoded file bytes (RFC 4648). For examples of how to use Media Files, please refer to\n\n[https://github.com/joomla/joomla-cms/blob/6.0-dev/tests/System/integration/api/com_media/Files.cy.js](https://github.com/joomla/joomla-cms/blob/6.0-dev/tests/System/integration/api/com_media/Files.cy.js)"
+          }
+        }
+      },
+
+      "MediaAdapterAttributes": {
+        "type": "object",
+        "required": ["provider_id", "name", "path"],
+        "properties": {
+          "provider_id": {
+            "type": "string",
+            "description": "Identifier of the storage provider backing this adapter (e.g. 'local')."
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable adapter name."
+          },
+          "path": {
+            "type": "string",
+            "description": "Root path of the adapter, including adapter prefix (e.g. local-images:/)."
+          }
+        },
+        "additionalProperties": false
+      },
+
+      "MediaAdapterResource": {
+        "type": "object",
+        "required": ["type", "id", "attributes"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["adapters"]
+          },
+          "id": {
+            "type": "string",
+            "description": "Adapter identifier (e.g. local-images)."
+          },
+          "attributes": {
+            "$ref": "#/components/schemas/MediaAdapterAttributes"
+          }
+        },
+        "additionalProperties": false
+      },
+
+      "MediaAdapterCollectionResponse": {
+        "type": "object",
+        "required": ["links", "data"],
+        "properties": {
+          "links": {
+            "$ref": "#/components/schemas/LinksSelf"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MediaAdapterResource"
+            }
+          },
+          "meta": {
+            "$ref": "#/components/schemas/MetaPagination"
+          }
+        },
+        "description": "Response returned when listing available media adapters."
+      },
+
+      "MediaAdapterResponse": {
+        "type": "object",
+        "required": ["links", "data"],
+        "properties": {
+          "links": {
+            "$ref": "#/components/schemas/LinksSelf"
+          },
+          "data": {
+            "$ref": "#/components/schemas/MediaAdapterResource"
+          }
+        },
+        "description": "Response returned when retrieving a single media adapter."
+      }
+
     }
   },
   "security": [
@@ -7716,12 +7954,10 @@
       "name": "Languages Overrides Search"
     },
     {
-      "name": "Media Adapters",
-      "description": "For examples of how to use Media Adapters, please refer to\n\n[https://github.com/joomla/joomla-cms/blob/6.0-dev/tests/System/integration/api/com_media/Adapters.cy.js](https://github.com/joomla/joomla-cms/blob/6.0-dev/tests/System/integration/api/com_media/Adapters.cy.js)"
+      "name": "Media Adapters"
     },
     {
-      "name": "Media Files",
-      "description": "For examples of how to use Media Files, please refer to\n\n[https://github.com/joomla/joomla-cms/blob/6.0-dev/tests/System/integration/api/com_media/Files.cy.js](https://github.com/joomla/joomla-cms/blob/6.0-dev/tests/System/integration/api/com_media/Files.cy.js)"
+      "name": "Media Files"
     },
     {
       "name": "Menus"
