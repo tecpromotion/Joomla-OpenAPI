@@ -4398,7 +4398,7 @@
         },
         "responses": {
           "200": {
-            "description": "Response returned when a single media file is requested.",
+            "description": "Media file updated successfully.",
             "content": {
               "application/json": {
                 "schema": {
